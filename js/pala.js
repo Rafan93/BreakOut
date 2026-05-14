@@ -13,7 +13,7 @@ class Pala {
     }
 
     update(){
-       
+
     }
    
     draw(ctx) {

@@ -2,8 +2,8 @@
 * CLASSE JOC
 */
 
-class Joc{
-    constructor(canvas,ctx) {
+class Joc {
+    constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.amplada = canvas.width;
@@ -11,19 +11,19 @@ class Joc{
         this.totxoamplada = 22;
         this.totxoalcada = 10; // MIDES DEL TOTXO EN PÍXELS
         this.totxocolor = 20;
-       
 
-        this.bola = new Bola(new Punt(this.canvas.width/2,this.canvas.height/2),3);
-        this.pala = new Pala(new Punt((this.canvas.width-60)/2,this.canvas.height-15),60,4);
-        this.totxo = new Totxo(new Punt((this.canvas.width-120)/2,(this.canvas.height-20)/3), 120, 20, "#0ad");  // només posem un totxo gegant
+
+        this.bola = new Bola(new Punt(this.canvas.width / 2, this.canvas.height / 2), 3);
+        this.pala = new Pala(new Punt((this.canvas.width - 60) / 2, this.canvas.height - 15), 60, 4);
+        this.totxo = new Totxo(new Punt((this.canvas.width - 120) / 2, (this.canvas.height - 20) / 3), 120, 20, "#0ad");  // només posem un totxo gegant
 
         this.key = {
-            LEFT:{code:37, pressed:false},
-            RIGHT:{code:39, pressed:false}
-        };      
+            LEFT: { code: 37, pressed: false },
+            RIGHT: { code: 39, pressed: false }
+        };
     }
 
-    draw(){
+    draw() {
         this.clearCanvas();
         this.pala.draw(this.ctx);
         this.bola.draw(this.ctx);
@@ -31,28 +31,46 @@ class Joc{
 
 
     }
-    clearCanvas(){
-        this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
-    inicialitza(){
+    inicialitza() {
         this.pala.draw(this.ctx);
         this.bola.draw(this.ctx);
         this.totxo.draw(this.ctx);
-        $(document).on("keydown",{joc:this}, function(e){
-           //Moviment de la pala
-        });
-        $(document).on("keyup", {joc:this}, function(e){
-            //Moviment de la pala
-        });
-
         
+    $(document).on("keydown", {joc: this}, function(e) {
+        if (e.keyCode === e.data.joc.key.LEFT.code)  e.data.joc.key.LEFT.pressed  = true;
+        if (e.keyCode === e.data.joc.key.RIGHT.code) e.data.joc.key.RIGHT.pressed = true;
+    });
+   
+    $(document).on("keyup", {joc: this}, function(e) {
+        if (e.keyCode === e.data.joc.key.LEFT.code)  e.data.joc.key.LEFT.pressed  = false;
+        if (e.keyCode === e.data.joc.key.RIGHT.code) e.data.joc.key.RIGHT.pressed = false;
+    });
+
+
     }
 
-    update(){
+
+    update() {
+
+
+        if (this.key.LEFT.pressed == true  && this.pala.posicio.x > 0) {
+            this.pala.mou(-this.pala.vx, 0);
+        }
+
+        if (this.key.RIGHT.pressed && this.pala.posicio.x + this.pala.amplada < this.amplada) {
+            this.pala.mou(this.pala.vx, 0);
+
+        }
+
+
+
         this.bola.update();
         this.pala.update();
-        this.draw();       
+        this.draw();
 
     }
 }
