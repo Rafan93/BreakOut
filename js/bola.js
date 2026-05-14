@@ -18,7 +18,7 @@ class Bola {
         this.posicio.x += x;
         this.posicio.y += y;
     }
-    update(){
+    update(pala, totxo){
 
         let puntActual = this.posicio;
         let puntSeguent= new Punt(this.posicio.x + this.vx,
@@ -65,6 +65,12 @@ class Bola {
         }
 
         //Xoc amb la pala
+        let resultatPala = this.interseccioSegmentRectangle(trajectoria, pala);
+        if (resultatPala) {
+            if (resultatPala.vora === "superior" || resultatPala.vora === "inferior") this.vy = -this.vy;
+            if (resultatPala.vora === "esquerra" || resultatPala.vora === "dreta") this.vx = -this.vx;
+            xoc = true;
+        }
 
         //Xoc amb els totxos del mur
         //Utilitzem el mètode INTERSECCIOSEGMENTRECTANGLE
@@ -93,11 +99,24 @@ class Bola {
        //vora superior
        let segmentVoraSuperior = new  Segment(rectangle.posicio,
            new Punt(rectangle.posicio.x + rectangle.amplada, rectangle.posicio.y));
-       //vora inferior
-      
-       //vora esquerra
-      
-       //vora dreta
+       // vora inferior
+        let segmentVoraInferior = new Segment(
+            new Punt(rectangle.posicio.x, rectangle.posicio.y + rectangle.alcada),
+            new Punt(rectangle.posicio.x + rectangle.amplada, rectangle.posicio.y + rectangle.alcada)
+        );
+
+        // vora esquerra
+        let segmentVoraEsquerra = new Segment(
+            rectangle.posicio,
+            new Punt(rectangle.posicio.x, rectangle.posicio.y + rectangle.alcada)
+        );
+
+        // vora dreta
+        let segmentVoraDreta = new Segment(
+            new Punt(rectangle.posicio.x + rectangle.amplada, rectangle.posicio.y),
+            new Punt(rectangle.posicio.x + rectangle.amplada, rectangle.posicio.y + rectangle.alcada)
+        );
+
       
 
        //2n REVISAR SI EXISTEIX UN PUNT D'INTERSECCIÓ EN UN DELS 4 SEGMENTS
@@ -116,11 +135,35 @@ class Bola {
            }
        }
        //vora inferior
-       
+       puntI = segment.puntInterseccio(segmentVoraInferior);
+       if(puntI){
+           distanciaI = Punt.distanciaDosPunts(segment.puntA,puntI);
+           if(distanciaI < distanciaIMin){
+               distanciaIMin = distanciaI;
+               puntIMin = puntI;
+               voraI = "inferior";
+           }
+       }
        //vora esquerra
-      
+       puntI = segment.puntInterseccio(segmentVoraEsquerra);
+       if(puntI){
+           distanciaI = Punt.distanciaDosPunts(segment.puntA,puntI);
+           if(distanciaI < distanciaIMin){
+               distanciaIMin = distanciaI;
+               puntIMin = puntI;
+               voraI = "esquerra";
+           }
+       }
        //vora dreta
-       
+       puntI = segment.puntInterseccio(segmentVoraDreta);
+       if(puntI){
+           distanciaI = Punt.distanciaDosPunts(segment.puntA,puntI);
+           if(distanciaI < distanciaIMin){
+               distanciaIMin = distanciaI;
+               puntIMin = puntI;
+               voraI = "dreta";
+           }
+       }
        //Retorna la vora on s'ha produït la col·lisió, i el punt (x,y)
        if(voraI){
            return {pI: puntIMin, vora: voraI};
