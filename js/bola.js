@@ -5,7 +5,6 @@ class Bola {
         this.vx = 1;
         this.vy = -1;
         this.color = "#fff";
-      
     };
 
     draw(ctx) {
@@ -39,9 +38,32 @@ class Bola {
             this.vy = -this.vy;
         }
         //Xoc lateral dret
+        if(trajectoria.puntB.x + this.radi > 300){
+            exces = (trajectoria.puntB.x + this.radi - 300) / this.vx;
+            this.posicio.y = trajectoria.puntB.y - exces * this.vy;
+            this.posicio.x = 300 - this.radi;
+            xoc = true;
+            this.vx = -this.vx;
+        }
+
         //Xoc lateral esquerra
+        if(trajectoria.puntB.x - this.radi < 0){
+            exces = (trajectoria.puntB.x - this.radi) / this.vx;
+            this.posicio.y = trajectoria.puntB.y - exces * this.vy;
+            this.posicio.x = this.radi;
+            xoc = true;
+            this.vx = -this.vx;
+        }
+        
         //Xoc lateral inferior
-      
+       if(trajectoria.puntB.y + this.radi > 150){
+            exces= (trajectoria.puntB.y + this.radi - 150)/this.vy;
+            this.posicio.x = trajectoria.puntB.x - exces*this.vx;
+            this.posicio.y = 150 - this.radi;
+            xoc = true;
+            this.vy = -this.vy;
+        }
+
         //Xoc amb la pala
 
         //Xoc amb els totxos del mur
