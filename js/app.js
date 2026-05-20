@@ -1,31 +1,31 @@
 //  APLICACIÓ
-$(document).ready(function() {
+let joc = null;
+
+$(document).ready(function () {
 
     let myCanvas = document.getElementById("joc");
     let ctx = myCanvas.getContext("2d");
 
-    joc = new Joc(myCanvas,ctx);
-    joc.inicialitza();
-    animacio();
-
+    // Solo creamos el objeto, no arrancamos el juego
+    joc = new Joc(myCanvas, ctx);
 });
 
 function animacio() {
     joc.update();
-    requestAnimationFrame(animacio);    
+    requestAnimationFrame(animacio);
 }
 
-//   MENÚ PRINCIPAL (Bootstrap)
+//   MENÚ PRINCIPAL
 let nivellSeleccionat = null;
 
-//  Selección de nivel
+// Selección de nivel
 $(".nivell-btn").on("click", function () {
     $(".nivell-btn").removeClass("active");
     $(this).addClass("active");
     nivellSeleccionat = $(this).data("nivell");
 });
 
-//  Botón JUGAR
+// Botón JUGAR
 $("#jugarBtn").on("click", function () {
 
     let nom = $("#nomJugador").val();
@@ -40,11 +40,15 @@ $("#jugarBtn").on("click", function () {
         return;
     }
 
-    //  Ocultar menú completamente
+    // Ocultar menú
     $("#menu-principal").fadeOut(300, function () {
-        $(this).remove(); //    Desaparece del DOM
+        $(this).remove();
     });
 
-    //  Mostrar el juego
+    // Mostrar juego
     $("#principal").fadeIn(300);
+
+    // Ahora sí arrancamos el juego
+    joc.inicialitza();
+    animacio();
 });
