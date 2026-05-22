@@ -52,6 +52,19 @@ class Mur {
         ];
     }
 
+    estaNet() {
+        return this.totxos.every(t => t.tocat);
+    }
+
+    seguentNivell() {
+        if (this.nivellActual < this.nivells.length - 1) {
+            this.nivellActual++;
+            this.generaMur();
+            return true;
+        }
+        return false;
+    }
+
     generaMur() {
         this.totxos = [];
 

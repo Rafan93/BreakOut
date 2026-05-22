@@ -1,19 +1,52 @@
 //  APLICACIÓ
 let joc = null;
 
+// ===== PUNTUACIONS =====
+function getPuntuacions() {
+    return JSON.parse(localStorage.getItem("breakout_puntuacions") || "[]");
+}
+
+function guardaPuntuacio(nom, punts) {
+    let llista = getPuntuacions();
+    llista.push({ nom, punts });
+    llista.sort((a, b) => b.punts - a.punts);
+    llista = llista.slice(0, 5);
+    localStorage.setItem("breakout_puntuacions", JSON.stringify(llista));
+}
+
+function renderitzaRanking(selector) {
+    const llista = getPuntuacions();
+    if (llista.length === 0) {
+        $(selector).html("<p class='text-muted'>Encara no hi ha puntuacions.</p>");
+        return;
+    }
+    let html = "<ol class='ps-3 mb-0'>";
+    for (const p of llista) {
+        html += `<li>${p.nom} — <strong style="color:#4CF;">${p.punts}</strong></li>`;
+    }
+    html += "</ol>";
+    $(selector).html(html);
+}
+
 $(document).ready(function () {
 
     let myCanvas = document.getElementById("joc");
     let ctx = myCanvas.getContext("2d");
 
-    // Solo creamos el objeto, no arrancamos el juego
     joc = new Joc(myCanvas, ctx);
+
+    renderitzaRanking("#ranking-menu");
 });
 
 function animacio() {
+    if (joc.acabat) return;
     joc.update();
     requestAnimationFrame(animacio);
 }
+
+$(document).on("click", "#win-tornarBtn, #lose-tornarBtn", function () {
+    location.reload();
+});
 
 //   MENÚ PRINCIPAL
 let nivellSeleccionat = null;
@@ -49,6 +82,6 @@ $("#jugarBtn").on("click", function () {
     $("#principal").fadeIn(300);
 
     // Ahora sí arrancamos el juego
-    joc.inicialitza();
+    joc.inicialitza(nivellSeleccionat, nom);
     animacio();
 });

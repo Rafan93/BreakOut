@@ -44,9 +44,8 @@ class Bola {
         }
 
         if (puntSeguent.y + this.radi > this.canvasAlcada) {
-            this.posicio.y = this.canvasAlcada - this.radi;
-            this.vy = -this.vy;
-            xoc = true;
+            this.fora = true;
+            return;
         }
 
         if (puntSeguent.x + this.radi > this.canvasAmplada) {
@@ -62,7 +61,11 @@ class Bola {
         }
 
         // ===== PALA =====
-        let colPala = this.interseccioSegmentRectangle(trajectoria, pala);
+                    let palaGran = { posicio: new Punt(pala.posicio.x - this.radi, pala.posicio.y - this.radi),
+            amplada: pala.amplada + 2 * this.radi,
+            alcada: pala.alcada + 2 * this.radi}
+
+        let colPala = this.interseccioSegmentRectangle(trajectoria, palaGran);
         if (colPala) {
             if (colPala.vora === "superior" || colPala.vora === "inferior") this.vy = -this.vy;
             if (colPala.vora === "esquerra" || colPala.vora === "dreta") this.vx = -this.vx;
