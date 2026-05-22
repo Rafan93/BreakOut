@@ -27,12 +27,48 @@
 
             <button id="jugarBtn" class="btn btn-info w-100 fw-bold mb-3">JUGAR</button>
 
+            <hr style="border-color:#555;">
+            <h6 class="text-center mb-2" style="color:#FFD700;">TOP 5</h6>
+            <div id="ranking-menu" class="text-center small"></div>
+
         </div>
     </div>
 
     <!--JUEGO CANVAS-->
     <div id="principal">
         <canvas id="joc" width="740" height="400"></canvas>
+    </div>
+
+    <!--PANTALLA VICTÒRIA-->
+    <div id="pantalla-win" class="d-none justify-content-center align-items-center" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(0,0,0,0.85);">
+        <div class="card p-4 shadow-lg text-center" style="width:420px;background:#1a1a2e;color:white;border:2px solid #FFD700;">
+            <h1 class="mb-1" style="color:#FFD700;font-size:2.5rem;">ENHORABONA!</h1>
+            <p class="mb-3" style="color:#aaa;">Has completat tots els nivells!</p>
+            <div class="mb-3 p-3 rounded" style="background:#0f3460;">
+                <span style="color:#aaa;font-size:0.9rem;">PUNTUACIÓ FINAL</span>
+                <div id="win-punts" style="color:#4CF;font-size:2rem;font-weight:bold;">0</div>
+            </div>
+            <hr style="border-color:#444;">
+            <h6 class="mb-2" style="color:#FFD700;">TOP 5</h6>
+            <div id="win-ranking" class="text-start small mb-3"></div>
+            <button id="win-tornarBtn" class="btn btn-warning fw-bold w-100">TORNAR AL MENÚ</button>
+        </div>
+    </div>
+
+    <!--PANTALLA DERROTA-->
+    <div id="pantalla-lose" class="d-none justify-content-center align-items-center" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(0,0,0,0.85);">
+        <div class="card p-4 shadow-lg text-center" style="width:420px;background:#1a1a2e;color:white;border:2px solid #e74c3c;">
+            <h1 class="mb-1" style="color:#e74c3c;font-size:2.5rem;">LLÀSTIMA!</h1>
+            <p class="mb-3" style="color:#aaa;">Has perdut totes les vides!</p>
+            <div class="mb-3 p-3 rounded" style="background:#0f3460;">
+                <span style="color:#aaa;font-size:0.9rem;">PUNTUACIÓ FINAL</span>
+                <div id="lose-punts" style="color:#4CF;font-size:2rem;font-weight:bold;">0</div>
+            </div>
+            <hr style="border-color:#444;">
+            <h6 class="mb-2" style="color:#FFD700;">TOP 5</h6>
+            <div id="lose-ranking" class="text-start small mb-3"></div>
+            <button id="lose-tornarBtn" class="btn btn-danger fw-bold w-100">TORNAR AL MENÚ</button>
+        </div>
     </div>
 
 </body>
