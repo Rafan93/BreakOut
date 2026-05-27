@@ -156,6 +156,11 @@ class Joc {
                 const factor = 1.2;
                 this.bola.vx *= factor;
                 this.bola.vy *= factor;
+                this.pala.vx *= factor;
+                this.bola.posicio = new Punt(this.canvas.width / 2, this.canvas.height / 2);
+                this.bola.vy = -Math.abs(this.bola.vy);
+                this.esperant = true;
+                this.tempsInici = Date.now();
             } else {
                 // Victoria
                 this.acabat = true;

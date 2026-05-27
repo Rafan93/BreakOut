@@ -1,13 +1,9 @@
-/*
-* CLASSE TOTXO
-*/
-
 class Totxo{
     constructor(puntPosicio, amplada, alcada){
   
     this.amplada=amplada; 
     this.alcada=alcada;         // mides
-    this.tocat=false;       // marquem els totxos tocats per la bola => no es pintaran
+    this.tocat=false;       // marquem els totxos tocats per la bola => no es mostraran
     this.posicio = puntPosicio;         // posició, en píxels respecte el canvas
     this.color;
     this.punts;
