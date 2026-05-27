@@ -20,10 +20,10 @@ class Mur {
             {
                 color: "#4CF",
                 totxos: [
-                    "     a",
-                    "",
-                    "",
-                    "",
+                    "aaaaaaaaaaaa",
+                    "aaaaaaaaaaaa",
+                    "aaaaaaaaaaaa",
+                    "aaaaaaaaaaaa",
                 ]
             },
             {
