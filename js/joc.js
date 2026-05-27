@@ -1,7 +1,3 @@
-/*
-* CLASSE JOC
-*/
-
 class Joc {
     constructor(canvas, ctx) {
         this.canvas = canvas;
@@ -13,6 +9,7 @@ class Joc {
         this.totxoalcada = 20;
 
         this.punts = 0;
+        this.vides = 3;
         this.acabat = false;
 
         this.bola = new Bola(
@@ -59,29 +56,31 @@ class Joc {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    //Puntuació actual
     dibuixaPunts() {
         this.ctx.fillStyle = "white";
         this.ctx.font = "16px Arial";
         this.ctx.fillText("Punts: " + this.punts, 10, 20);
     }
 
+    // Vides restants
+    dibuixaVides() {
+        this.ctx.font = "20px Arial";
+        for (let i = 0; i < 3; i++) {
+            const emoji = i < this.vides ? "❤️" : "🖤";
+            this.ctx.fillText(emoji, this.amplada - 78 + i * 26, 20);
+        }
+    }
+
+    // Millor top
     dibuixaRanking() {
         const llista = getPuntuacions();
         if (llista.length === 0) return;
 
         const millor = llista[0];
-        const x = this.amplada - 145;
-
-        this.ctx.fillStyle = "rgba(0,0,0,0.5)";
-        this.ctx.fillRect(x - 5, 5, 145, 36);
-
-        this.ctx.font = "bold 11px Arial";
-        this.ctx.fillStyle = "#FFD700";
-        this.ctx.fillText("RÈCORD", x, 18);
-
-        this.ctx.font = "11px Arial";
         this.ctx.fillStyle = "white";
-        this.ctx.fillText(`${millor.nom}  ${millor.punts}`, x, 33);
+        this.ctx.font = "16px Arial";
+        this.ctx.fillText(`Rècord: ${millor.nom} ${millor.punts}`, 150, 20);
     }
 
     draw() {
@@ -91,6 +90,7 @@ class Joc {
         this.bola.draw(this.ctx);
         this.dibuixaPunts();
         this.dibuixaRanking();
+        this.dibuixaVides();
     }
 
     inicialitza(nivell, nom) {
@@ -101,6 +101,8 @@ class Joc {
             this.bola.vx *= 1.2;
             this.bola.vy *= 1.2;
         }
+        this.esperant = true;
+        this.tempsInici = Date.now();
         this.draw();
     }
 
@@ -114,25 +116,48 @@ class Joc {
             this.pala.mou(this.pala.vx, 0);
         }
 
+        if (this.esperant) {
+            if (Date.now() - this.tempsInici < 1500) {
+                this.draw();
+                return;
+            }
+            this.esperant = false;
+        }
+
         this.bola.update(this.pala, this.mur);
 
+        // Perdre vida quan cau la bola
         if (this.bola.fora) {
-            this.acabat = true;
-            guardaPuntuacio(this.nom, this.punts);
-            $("#lose-punts").text(this.punts);
-            renderitzaRanking("#lose-ranking");
-            $("#pantalla-lose").removeClass("d-none").addClass("d-flex");
+            this.vides--;
+            this.bola.fora = false;
+
+            // Game over
+            if (this.vides <= 0) {
+                this.acabat = true;
+                guardaPuntuacio(this.nom, this.punts);
+                $("#lose-punts").text(this.punts);
+                renderitzaRanking("#lose-ranking");
+                $("#pantalla-lose").removeClass("d-none").addClass("d-flex");
+                return;
+            }
+
+            this.bola.posicio = new Punt(this.canvas.width / 2, this.canvas.height / 2);
+            this.bola.vy = -Math.abs(this.bola.vy);
+            this.esperant = true;
+            this.tempsInici = Date.now();
             return;
         }
 
         this.pala.update();
 
+        //Pas de nivell
         if (this.mur.estaNet()) {
             if (this.mur.seguentNivell()) {
                 const factor = 1.2;
                 this.bola.vx *= factor;
                 this.bola.vy *= factor;
             } else {
+                // Victoria
                 this.acabat = true;
                 guardaPuntuacio(this.nom, this.punts);
                 $("#win-punts").text(this.punts);
