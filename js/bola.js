@@ -1,7 +1,3 @@
-/*
-* CLASSE BOLA
-*/
-
 class Bola {
     constructor(puntPosicio, radi) {
         this.radi = radi;
@@ -36,7 +32,7 @@ class Bola {
         let trajectoria = new Segment(puntActual, puntSeguent);
         let xoc = false;
 
-        // ===== PARETS =====
+        //Parets
         if (puntSeguent.y - this.radi < 0) {
             this.posicio.y = this.radi;
             this.vy = -this.vy;
@@ -60,7 +56,7 @@ class Bola {
             xoc = true;
         }
 
-        // ===== PALA =====
+        //Pala
                     let palaGran = { posicio: new Punt(pala.posicio.x - this.radi, pala.posicio.y - this.radi),
             amplada: pala.amplada + 2 * this.radi,
             alcada: pala.alcada + 2 * this.radi}
@@ -72,8 +68,8 @@ class Bola {
             xoc = true;
         }
 
-        // Col·lisions bola–totxos: detecta xoc, elimina el totxo i rebota la bola
-        // ===== TOTXOS =====
+        // Col·lisions bola–totxos
+        // Totxos
         if (mur && mur.totxos) {
             for (let t of mur.totxos) {
                 if (t.tocat) continue;

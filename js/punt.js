@@ -1,7 +1,3 @@
-/*
-* CLASSE PUNT
-*/
-
 class Punt {
     constructor(x, y,) {
         this.x = x;

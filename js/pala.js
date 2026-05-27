@@ -1,7 +1,3 @@
-/*
-* CLASSE PALA
-*/
-
 class Pala {
     constructor(puntPosicio, amplada, alcada){      
         this.amplada = amplada;

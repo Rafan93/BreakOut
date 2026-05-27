@@ -1,7 +1,3 @@
-/*
-* CLASSE SEGMENT
-*/
-
 class Segment{
     constructor(puntA, puntB){
         this.puntA = puntA;
@@ -72,7 +68,7 @@ class Segment{
     	// funció interna
 	valorDinsInterval(a, b, c) {  
         // retorna cert si b està entre a i b, ambdos exclosos
-        if (Math.abs(a-b) < 0.000001 || Math.abs(b-c) < 0.000001) { // no podem fer a==b amb valors reals!!
+        if (Math.abs(a-b) < 0.000001 || Math.abs(b-c) < 0.000001) {
             return false;
         }
         return (a < b && b < c) || (c < b && b < a);
