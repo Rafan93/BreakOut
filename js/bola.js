@@ -72,6 +72,7 @@ class Bola {
             xoc = true;
         }
 
+        // Col·lisions bola–totxos: detecta xoc, elimina el totxo i rebota la bola
         // ===== TOTXOS =====
         if (mur && mur.totxos) {
             for (let t of mur.totxos) {
@@ -81,7 +82,7 @@ class Bola {
                 if (col) {
                     t.tocat = true;
 
-                    // 🔥 SUMAR PUNTS
+                    // Sistema de puntuació: suma punts per totxo destruït
                     joc.punts += t.punts;
 
                     if (col.vora === "superior" || col.vora === "inferior") this.vy = -this.vy;

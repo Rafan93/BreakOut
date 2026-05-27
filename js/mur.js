@@ -18,6 +18,7 @@ class Mur {
         this.generaMur();
     }
 
+    // Selecció de colors per al canvas, pala i bola (color per nivell)
     defineixNivells() {
         this.nivells = [
             {
@@ -56,6 +57,7 @@ class Mur {
         return this.totxos.every(t => t.tocat);
     }
 
+    // Pas de nivell: avança al següent nivell si n'hi ha
     seguentNivell() {
         if (this.nivellActual < this.nivells.length - 1) {
             this.nivellActual++;
@@ -65,6 +67,7 @@ class Mur {
         return false;
     }
 
+    // Generació del mur (Mur.generaMur()): crea els totxos en pantalla a partir del patró de text del nivell
     generaMur() {
         this.totxos = [];
 

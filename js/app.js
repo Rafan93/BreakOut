@@ -1,7 +1,6 @@
-//  APLICACIÓ
 let joc = null;
 
-// ===== PUNTUACIONS =====
+// Persistència amb localStorage top 5
 function getPuntuacions() {
     return JSON.parse(localStorage.getItem("breakout_puntuacions") || "[]");
 }
@@ -35,6 +34,7 @@ $(document).ready(function () {
 
     joc = new Joc(myCanvas, ctx);
 
+    // Pantalla inicial visualització top 5
     renderitzaRanking("#ranking-menu");
 });
 
@@ -51,14 +51,14 @@ $(document).on("click", "#win-tornarBtn, #lose-tornarBtn", function () {
 //   MENÚ PRINCIPAL
 let nivellSeleccionat = null;
 
-// Selección de nivel
+// Selecció de nivell
 $(".nivell-btn").on("click", function () {
     $(".nivell-btn").removeClass("active");
     $(this).addClass("active");
     nivellSeleccionat = $(this).data("nivell");
 });
 
-// Botón JUGAR
+//Botó JUGAR
 $("#jugarBtn").on("click", function () {
 
     let nom = $("#nomJugador").val();
@@ -78,10 +78,10 @@ $("#jugarBtn").on("click", function () {
         $(this).remove();
     });
 
-    // Mostrar juego
+    // Mostrar joc
     $("#principal").fadeIn(300);
 
-    // Ahora sí arrancamos el juego
+    // Arranca el joc
     joc.inicialitza(nivellSeleccionat, nom);
     animacio();
 });
