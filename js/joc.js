@@ -7,12 +7,19 @@ class Joc {
         
 
 
+        
+
+
         this.totxoamplada = 50;
         this.totxoalcada = 20;
 
         this.punts = 0;
         this.vides = 3;
         this.acabat = false;
+
+
+        this.soColissio = new Audio('so/burbuja.mp3');
+
 
 
         this.soMur = new Audio('so/Mur.mp3');
@@ -180,6 +187,17 @@ class Joc {
 
         this.draw();
     }
+
+ reproduirColissio() {
+    this.soColissio.play();
+}
+    
+}
+
+
+
+
+
 
  reproduirColissio() {
     this.soColissio.play();
