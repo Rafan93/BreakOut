@@ -1,5 +1,6 @@
 let joc = null;
 
+
 // Persistència amb localStorage top 5
 function getPuntuacions() {
     return JSON.parse(localStorage.getItem("breakout_puntuacions") || "[]");
@@ -85,3 +86,5 @@ $("#jugarBtn").on("click", function () {
     joc.inicialitza(nivellSeleccionat, nom);
     animacio();
 });
+
+

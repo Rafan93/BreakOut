@@ -4,6 +4,8 @@ class Joc {
         this.ctx = ctx;
         this.amplada = canvas.width;
         this.alcada = canvas.height;
+        
+
 
         this.totxoamplada = 50;
         this.totxoalcada = 20;
@@ -11,6 +13,12 @@ class Joc {
         this.punts = 0;
         this.vides = 3;
         this.acabat = false;
+
+
+        this.soColissio = new Audio('so/burbuja.mp3');
+        this.soPerdreVida = new Audio('so/perdrevida.mp3')
+        this.soPerdre = new Audio('so/spongebob-fail.mp3')
+        this.soGuanyar = new Audio('so/victory_fanfare.mp3')
 
         this.bola = new Bola(
             new Punt(this.canvas.width / 2, this.canvas.height / 2),
@@ -129,11 +137,13 @@ class Joc {
         // Perdre vida quan cau la bola
         if (this.bola.fora) {
             this.vides--;
+            this.soPerdreVida.play();
             this.bola.fora = false;
 
             // Game over
             if (this.vides <= 0) {
                 this.acabat = true;
+                this.soPerdre.play();
                 guardaPuntuacio(this.nom, this.punts);
                 $("#lose-punts").text(this.punts);
                 renderitzaRanking("#lose-ranking");
@@ -164,6 +174,7 @@ class Joc {
             } else {
                 // Victoria
                 this.acabat = true;
+                this.soGuanyar.play();
                 guardaPuntuacio(this.nom, this.punts);
                 $("#win-punts").text(this.punts);
                 renderitzaRanking("#win-ranking");
@@ -173,4 +184,14 @@ class Joc {
 
         this.draw();
     }
+
+ reproduirColissio() {
+    this.soColissio.play();
 }
+    
+}
+
+
+
+
+
