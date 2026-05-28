@@ -37,27 +37,32 @@ class Bola {
             this.posicio.y = this.radi;
             this.vy = -this.vy;
             xoc = true;
+            joc.reproduirColissio(); 
         }
 
         if (puntSeguent.y + this.radi > this.canvasAlcada) {
             this.fora = true;
             return;
+            joc.reproduirColissio(); 
+
         }
 
         if (puntSeguent.x + this.radi > this.canvasAmplada) {
             this.posicio.x = this.canvasAmplada - this.radi;
             this.vx = -this.vx;
             xoc = true;
+            joc.reproduirColissio(); 
         }
 
         if (puntSeguent.x - this.radi < 0) {
             this.posicio.x = this.radi;
             this.vx = -this.vx;
             xoc = true;
+            joc.reproduirColissio(); 
         }
 
         //Pala
-                    let palaGran = { posicio: new Punt(pala.posicio.x - this.radi, pala.posicio.y - this.radi),
+            let palaGran = { posicio: new Punt(pala.posicio.x - this.radi, pala.posicio.y - this.radi),
             amplada: pala.amplada + 2 * this.radi,
             alcada: pala.alcada + 2 * this.radi}
 
@@ -66,6 +71,8 @@ class Bola {
             if (colPala.vora === "superior" || colPala.vora === "inferior") this.vy = -this.vy;
             if (colPala.vora === "esquerra" || colPala.vora === "dreta") this.vx = -this.vx;
             xoc = true;
+            joc.reproduirColissio(); 
+
         }
 
         // Col·lisions bola–totxos
