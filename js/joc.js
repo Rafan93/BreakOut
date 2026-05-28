@@ -4,6 +4,8 @@ class Joc {
         this.ctx = ctx;
         this.amplada = canvas.width;
         this.alcada = canvas.height;
+        
+
 
         this.totxoamplada = 50;
         this.totxoalcada = 20;
@@ -11,6 +13,11 @@ class Joc {
         this.punts = 0;
         this.vides = 3;
         this.acabat = false;
+
+
+        this.soMur = new Audio('so/Mur.mp3');
+        this.soColissio = new Audio('so/burbuja.mp3');
+
 
         this.bola = new Bola(
             new Punt(this.canvas.width / 2, this.canvas.height / 2),
@@ -173,4 +180,18 @@ class Joc {
 
         this.draw();
     }
+
+ reproduirColissio() {
+    this.soColissio.play();
 }
+
+ reproduirMur(){
+    this.soMur.play();
+}
+
+}
+
+
+
+
+
