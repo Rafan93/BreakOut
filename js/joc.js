@@ -7,6 +7,9 @@ class Joc {
         
 
 
+        
+
+
         this.totxoamplada = 50;
         this.totxoalcada = 20;
 
@@ -19,6 +22,11 @@ class Joc {
         this.soPerdreVida = new Audio('so/perdrevida.mp3')
         this.soPerdre = new Audio('so/spongebob-fail.mp3')
         this.soGuanyar = new Audio('so/victory_fanfare.mp3')
+
+
+        this.soMur = new Audio('so/Mur.mp3');
+        this.soColissio = new Audio('so/burbuja.mp3');
+
 
         this.bola = new Bola(
             new Punt(this.canvas.width / 2, this.canvas.height / 2),
@@ -189,6 +197,21 @@ class Joc {
     this.soColissio.play();
 }
     
+}
+
+
+
+
+
+
+ reproduirColissio() {
+    this.soColissio.play();
+}
+
+ reproduirMur(){
+    this.soMur.play();
+}
+
 }
 
 

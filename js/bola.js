@@ -84,6 +84,7 @@ class Bola {
                 let col = this.interseccioSegmentRectangle(trajectoria, t);
                 if (col) {
                     t.tocat = true;
+                    joc.reporduirMur();
 
                     // Sistema de puntuació: suma punts per totxo destruït
                     joc.punts += t.punts;
