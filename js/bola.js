@@ -68,10 +68,21 @@ class Bola {
 
         let colPala = this.interseccioSegmentRectangle(trajectoria, palaGran);
         if (colPala) {
-            if (colPala.vora === "superior" || colPala.vora === "inferior") this.vy = -this.vy;
-            if (colPala.vora === "esquerra" || colPala.vora === "dreta") this.vx = -this.vx;
+            if (colPala.vora === "superior") {
+                this.vy = -this.vy;
+                this.posicio = new Punt(colPala.pI.x, palaGran.posicio.y - 0.5);
+            } else if (colPala.vora === "inferior") {
+                this.vy = -this.vy;
+                this.posicio = new Punt(colPala.pI.x, palaGran.posicio.y + palaGran.alcada + 0.5);
+            } else if (colPala.vora === "esquerra") {
+                this.vx = -this.vx;
+                this.posicio = new Punt(palaGran.posicio.x - 0.5, colPala.pI.y);
+            } else if (colPala.vora === "dreta") {
+                this.vx = -this.vx;
+                this.posicio = new Punt(palaGran.posicio.x + palaGran.amplada + 0.5, colPala.pI.y);
+            }
             xoc = true;
-            joc.reproduirColissio(); 
+            joc.reproduirColissio();
 
         }
 
@@ -84,7 +95,7 @@ class Bola {
                 let col = this.interseccioSegmentRectangle(trajectoria, t);
                 if (col) {
                     t.tocat = true;
-                    joc.reporduirMur();
+                    joc.reproduirMur();
 
                     // Sistema de puntuació: suma punts per totxo destruït
                     joc.punts += t.punts;

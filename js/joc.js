@@ -38,6 +38,15 @@ class Joc {
             this.totxoalcada
         );
 
+        this.imatgesFons = {};
+        for (const niv of this.mur.nivells) {
+            if (niv.imatgeFons && !this.imatgesFons[niv.imatgeFons]) {
+                const img = new Image();
+                img.src = niv.imatgeFons;
+                this.imatgesFons[niv.imatgeFons] = img;
+            }
+        }
+
         this.key = {
             LEFT: { code: 37, pressed: false },
             RIGHT: { code: 39, pressed: false }
@@ -59,7 +68,14 @@ class Joc {
     }
 
     clearCanvas() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        const def = this.mur.nivells[this.mur.nivellActual];
+        if (def.imatgeFons) {
+            document.body.style.backgroundImage = `url('${def.imatgeFons}')`;
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        } else {
+            document.body.style.backgroundImage = "";
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
     }
 
     //Puntuació actual
@@ -90,6 +106,9 @@ class Joc {
     }
 
     draw() {
+        const def = this.mur.nivells[this.mur.nivellActual];
+        this.pala.color = def.colorPala || "#D30";
+        this.bola.color = def.colorBola || "#fff";
         this.clearCanvas();
         this.mur.draw(this.ctx);
         this.pala.draw(this.ctx);
@@ -107,6 +126,8 @@ class Joc {
             this.bola.vx *= 1.2;
             this.bola.vy *= 1.2;
         }
+        const defInicial = this.mur.nivells[this.mur.nivellActual];
+        if (defInicial.velocitatPala) this.pala.vx = defInicial.velocitatPala;
         this.esperant = true;
         this.tempsInici = Date.now();
         this.draw();
@@ -135,19 +156,21 @@ class Joc {
         // Perdre vida quan cau la bola
         if (this.bola.fora) {
             this.vides--;
-            this.soPerdreVida.play();
             this.bola.fora = false;
 
             // Game over
             if (this.vides <= 0) {
                 this.acabat = true;
-                this.soPerdre.play();
+                this.draw();
+                this.reproduirSo(this.soPerdre);
                 guardaPuntuacio(this.nom, this.punts);
                 $("#lose-punts").text(this.punts);
                 renderitzaRanking("#lose-ranking");
                 $("#pantalla-lose").removeClass("d-none").addClass("d-flex");
                 return;
             }
+
+            this.reproduirSo(this.soPerdreVida);
 
             this.bola.posicio = new Punt(this.canvas.width / 2, this.canvas.height / 2);
             this.bola.vy = -Math.abs(this.bola.vy);
@@ -165,6 +188,8 @@ class Joc {
                 this.bola.vx *= factor;
                 this.bola.vy *= factor;
                 this.pala.vx *= factor;
+                const defNou = this.mur.nivells[this.mur.nivellActual];
+                if (defNou.velocitatPala) this.pala.vx = defNou.velocitatPala;
                 this.bola.posicio = new Punt(this.canvas.width / 2, this.canvas.height / 2);
                 this.bola.vy = -Math.abs(this.bola.vy);
                 this.esperant = true;
@@ -172,7 +197,7 @@ class Joc {
             } else {
                 // Victoria
                 this.acabat = true;
-                this.soGuanyar.play();
+                this.reproduirSo(this.soGuanyar);
                 guardaPuntuacio(this.nom, this.punts);
                 $("#win-punts").text(this.punts);
                 renderitzaRanking("#win-ranking");
@@ -183,11 +208,15 @@ class Joc {
         this.draw();
     }
 
+    reproduirSo(audio) {
+        if (window.jocVolumen !== false) audio.play();
+    }
+
     reproduirColissio() {
-        this.soColissio.play();
+        this.reproduirSo(this.soColissio);
     }
 
     reproduirMur() {
-        this.soMur.play();
+        this.reproduirSo(this.soMur);
     }
 }

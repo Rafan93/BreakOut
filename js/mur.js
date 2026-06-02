@@ -45,6 +45,19 @@ class Mur {
                     "aa        aa",
                     "  aaaaaaaa  ",
                 ]
+            },
+            {
+                color: "#9D00FF",
+                imatgeFons: "images/fondobikini.jpeg",
+                colorPala: "#007BFF",
+                colorBola: "#FFD700",
+                velocitatPala: 9,
+                totxos: [
+                    "a a a a a a a",
+                    " a a a a a a ",
+                    "a a a a a a a",
+                    "aaaaaaaaaaaaa",
+                ]
             }
         ];
     }
