@@ -6,7 +6,7 @@ class Pala {
         this.vy = 4;     
         this.vx = 4;                                                   
         this.color = "#D30"; 
-    }
+    }   
 
     update(){
 

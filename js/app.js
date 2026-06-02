@@ -69,6 +69,12 @@ $("#jugarBtn").on("click", function () {
         return;
     }
 
+    const nomsTop5 = getPuntuacions().map(p => p.nom.toLowerCase());
+    if (nomsTop5.includes(nom.trim().toLowerCase())) {
+        alert(`El nom "${nom.trim()}" ja és al TOP 5! Utilitza un nom diferent.`);
+        return;
+    }
+
     if (!nivellSeleccionat) {
         alert("Selecciona un nivell!");
         return;

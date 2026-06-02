@@ -5,11 +5,11 @@
     <title>BreakOut 23-24</title>
 
     <link rel="stylesheet" href="css/estils.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <!--MENÚ PRINCIPAL-->
     <div id="menu-principal" class="d-flex justify-content-center align-items-center vh-100 bg-dark bg-opacity-75">
         <div class="card p-4 shadow-lg" style="width: 380px; background:#222; color:white;">
 
@@ -19,13 +19,31 @@
             <input type="text" id="nomJugador" class="form-control mb-3" placeholder="Nom d’usuari">
 
             <label class="form-label">Selecciona el nivell:</label>
-            <div class="d-flex justify-content-between mb-3">
-                <button class="btn btn-primary nivell-btn w-100 mx-1" data-nivell="1">NIVELL 1</button>
-                <button class="btn btn-success nivell-btn w-100 mx-1" data-nivell="2">NIVELL 2</button>
-                <button class="btn btn-danger nivell-btn w-100 mx-1" data-nivell="3">NIVELL 3</button>
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <button class="btn btn-primary nivell-btn w-100" data-nivell="1">NIVELL 1</button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-success nivell-btn w-100" data-nivell="2">NIVELL 2</button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-danger nivell-btn w-100" data-nivell="3">NIVELL 3</button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-warning nivell-btn w-100 text-dark fw-bold" data-nivell="4">NIVELL 4</button>
+                </div>
             </div>
 
             <button id="jugarBtn" class="btn btn-info w-100 fw-bold mb-3">JUGAR</button>
+
+            <div class="d-flex justify-content-between mb-3">
+                <button id="volumBtn" class="btn btn-outline-light w-50 me-1 small" data-mutat="false">
+                    <i class="bi bi-volume-up-fill" id="volumIcon"></i> <span id="volumText">Sons: ON</span>
+                </button>
+                <button id="resetMemoriaBtn" class="btn btn-outline-danger w-50 ms-1 small">
+                    <i class="bi bi-trash3-fill"></i> Esborrar Top 5
+                </button>
+            </div>
 
             <hr style="border-color:#555;">
             <h6 class="text-center mb-2" style="color:#FFD700;">TOP 5</h6>
@@ -34,12 +52,10 @@
         </div>
     </div>
 
-    <!--JUEGO CANVAS-->
     <div id="principal">
         <canvas id="joc" width="740" height="400"></canvas>
     </div>
 
-    <!--PANTALLA VICTÒRIA-->
     <div id="pantalla-win" class="d-none justify-content-center align-items-center" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(0,0,0,0.85);">
         <div class="card p-4 shadow-lg text-center" style="width:420px;background:#1a1a2e;color:white;border:2px solid #FFD700;">
             <h1 class="mb-1" style="color:#FFD700;font-size:2.5rem;">ENHORABONA!</h1>
@@ -55,7 +71,6 @@
         </div>
     </div>
 
-    <!--PANTALLA DERROTA-->
     <div id="pantalla-lose" class="d-none justify-content-center align-items-center" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(0,0,0,0.85);">
         <div class="card p-4 shadow-lg text-center" style="width:420px;background:#1a1a2e;color:white;border:2px solid #e74c3c;">
             <h1 class="mb-1" style="color:#e74c3c;font-size:2.5rem;">ELIMINAT!</h1>
@@ -84,6 +99,41 @@
 <script src="js/totxo.js"></script>
 <script src="js/mur.js"></script>
 <script src="js/segment.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // 1. Variable global simulada para el volumen (úsala en tus archivos de sonido)
+        window.jocVolumen = true; 
+
+        $('#volumBtn').on('click', function() {
+            let mutat = $(this).attr('data-mutat') === 'true';
+            mutat = !mutat;
+            $(this).attr('data-mutat', mutat);
+
+            if (mutat) {
+                window.jocVolumen = false;
+                $('#volumIcon').removeClass('bi-volume-up-fill').addClass('bi-volume-mute-fill');
+                $('#volumText').text('Sons: OFF');
+                $(this).removeClass('btn-outline-light').addClass('btn-outline-secondary');
+            } else {
+                window.jocVolumen = true;
+                $('#volumIcon').removeClass('bi-volume-mute-fill').addClass('bi-volume-up-fill');
+                $('#volumText').text('Sons: ON');
+                $(this).removeClass('btn-outline-secondary').addClass('btn-outline-light');
+            }
+        });
+
+        // 2. Reiniciar el JSON / LocalStorage de memoria del TOP 5
+        $('#resetMemoriaBtn').on('click', function() {
+            if (confirm("Segur que vols esborrar el TOP 5 i reiniciar la memòria?")) {
+                // Cambia 'rankingBreakOut' por la clave exacta que uses en tu app.js
+                localStorage.removeItem('breakout_puntuacions');
+                alert("Memòria reiniciada. Recarrega la pàgina o torna al menú per veure els canvis.");
+                location.reload(); // Recarga para actualizar los rankings limpios
+            }
+        });
+    });
+</script>
 
 <script src="js/app.js"></script>
 
