@@ -71,5 +71,6 @@ body {
 
 /* Botón de nivel seleccionado */
 .nivell-btn.active {
-    outline: 3px solid white;
+    outline: 3px solid white !important;
+    outline-offset: 2px;
 }
