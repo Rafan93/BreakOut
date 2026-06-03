@@ -1,4 +1,5 @@
 let joc = null;
+window.jocVolumen = true;
 
 
 // Persistència amb localStorage top 5
@@ -37,6 +38,32 @@ $(document).ready(function () {
 
     // Pantalla inicial visualització top 5
     renderitzaRanking("#ranking-menu");
+
+    $('#volumBtn').on('click', function () {
+        let mutat = $(this).attr('data-mutat') === 'true';
+        mutat = !mutat;
+        $(this).attr('data-mutat', mutat);
+
+        if (mutat) {
+            window.jocVolumen = false;
+            $('#volumIcon').removeClass('bi-volume-up-fill').addClass('bi-volume-mute-fill');
+            $('#volumText').text('Sons: OFF');
+            $(this).removeClass('btn-outline-light').addClass('btn-outline-secondary');
+        } else {
+            window.jocVolumen = true;
+            $('#volumIcon').removeClass('bi-volume-mute-fill').addClass('bi-volume-up-fill');
+            $('#volumText').text('Sons: ON');
+            $(this).removeClass('btn-outline-secondary').addClass('btn-outline-light');
+        }
+    });
+
+    $('#resetMemoriaBtn').on('click', function () {
+        if (confirm("Segur que vols esborrar el TOP 5 i reiniciar la memòria?")) {
+            localStorage.removeItem('breakout_puntuacions');
+            alert("Memòria reiniciada. Recarrega la pàgina o torna al menú per veure els canvis.");
+            location.reload();
+        }
+    });
 });
 
 function animacio() {

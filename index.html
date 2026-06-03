@@ -100,41 +100,6 @@
 <script src="js/mur.js"></script>
 <script src="js/segment.js"></script>
 
-<script>
-    $(document).ready(function() {
-        // 1. Variable global simulada para el volumen (úsala en tus archivos de sonido)
-        window.jocVolumen = true; 
-
-        $('#volumBtn').on('click', function() {
-            let mutat = $(this).attr('data-mutat') === 'true';
-            mutat = !mutat;
-            $(this).attr('data-mutat', mutat);
-
-            if (mutat) {
-                window.jocVolumen = false;
-                $('#volumIcon').removeClass('bi-volume-up-fill').addClass('bi-volume-mute-fill');
-                $('#volumText').text('Sons: OFF');
-                $(this).removeClass('btn-outline-light').addClass('btn-outline-secondary');
-            } else {
-                window.jocVolumen = true;
-                $('#volumIcon').removeClass('bi-volume-mute-fill').addClass('bi-volume-up-fill');
-                $('#volumText').text('Sons: ON');
-                $(this).removeClass('btn-outline-secondary').addClass('btn-outline-light');
-            }
-        });
-
-        // 2. Reiniciar el JSON / LocalStorage de memoria del TOP 5
-        $('#resetMemoriaBtn').on('click', function() {
-            if (confirm("Segur que vols esborrar el TOP 5 i reiniciar la memòria?")) {
-                // Cambia 'rankingBreakOut' por la clave exacta que uses en tu app.js
-                localStorage.removeItem('breakout_puntuacions');
-                alert("Memòria reiniciada. Recarrega la pàgina o torna al menú per veure els canvis.");
-                location.reload(); // Recarga para actualizar los rankings limpios
-            }
-        });
-    });
-</script>
-
 <script src="js/app.js"></script>
 
 </html>
