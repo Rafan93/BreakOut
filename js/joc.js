@@ -15,7 +15,7 @@ class Joc {
         // 🔊 Música i sons
         this.musica = new Audio('so/pou-fons.mp3');
         this.musica.loop = true;
-        this.musica.volume = 1.0;
+        this.musica.volume = 0.4;
 
         this.soColissio = new Audio('so/burbuja.mp3');
         this.soPerdreVida = new Audio('so/perdrevida.mp3');
