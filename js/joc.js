@@ -12,10 +12,15 @@ class Joc {
         this.vides = 3;
         this.acabat = false;
 
+        // 🔊 Música i sons
+        this.musica = new Audio('so/pou-fons.mp3');
+        this.musica.loop = true;
+        this.musica.volume = 1.0;
+
         this.soColissio = new Audio('so/burbuja.mp3');
-        this.soPerdreVida = new Audio('so/perdrevida.mp3')
-        this.soPerdre = new Audio('so/spongebob-fail.mp3')
-        this.soGuanyar = new Audio('so/victory_fanfare.mp3')
+        this.soPerdreVida = new Audio('so/perdrevida.mp3');
+        this.soPerdre = new Audio('so/spongebob-fail.mp3');
+        this.soGuanyar = new Audio('so/victory_fanfare.mp3');
         this.soMur = new Audio('so/Mur.mp3');
 
         this.bola = new Bola(
@@ -78,14 +83,12 @@ class Joc {
         }
     }
 
-    //Puntuació actual
     dibuixaPunts() {
         this.ctx.fillStyle = "white";
         this.ctx.font = "16px Arial";
         this.ctx.fillText("Punts: " + this.punts, 10, 20);
     }
 
-    // Vides restants
     dibuixaVides() {
         this.ctx.font = "20px Arial";
         for (let i = 0; i < 3; i++) {
@@ -94,7 +97,6 @@ class Joc {
         }
     }
 
-    // Millor top
     dibuixaRanking() {
         const llista = getPuntuacions();
         if (llista.length === 0) return;
@@ -120,14 +122,24 @@ class Joc {
 
     inicialitza(nivell, nom) {
         this.nom = nom;
+
+        // 🔊 Iniciar música de fons
+        if (window.jocVolumen !== false) {
+            this.musica.currentTime = 0;
+            this.musica.play().catch(() => {});
+        }
+
         this.mur.nivellActual = nivell - 1;
         this.mur.generaMur();
+
         for (let i = 1; i < nivell; i++) {
             this.bola.vx *= 1.2;
             this.bola.vy *= 1.2;
         }
+
         const defInicial = this.mur.nivells[this.mur.nivellActual];
         if (defInicial.velocitatPala) this.pala.vx = defInicial.velocitatPala;
+
         this.esperant = true;
         this.tempsInici = Date.now();
         this.draw();
@@ -153,15 +165,18 @@ class Joc {
 
         this.bola.update(this.pala, this.mur);
 
-        // Perdre vida quan cau la bola
+        // Perdre vida
         if (this.bola.fora) {
             this.vides--;
             this.bola.fora = false;
 
-            // Game over
             if (this.vides <= 0) {
                 this.acabat = true;
-                this.draw();
+
+                // 🔇 Aturar música
+                this.musica.pause();
+                this.musica.currentTime = 0;
+
                 this.reproduirSo(this.soPerdre);
                 guardaPuntuacio(this.nom, this.punts);
                 $("#lose-punts").text(this.punts);
@@ -181,15 +196,17 @@ class Joc {
 
         this.pala.update();
 
-        //Pas de nivell
+        // Pas de nivell
         if (this.mur.estaNet()) {
             if (this.mur.seguentNivell()) {
                 const factor = 1.2;
                 this.bola.vx *= factor;
                 this.bola.vy *= factor;
                 this.pala.vx *= factor;
+
                 const defNou = this.mur.nivells[this.mur.nivellActual];
                 if (defNou.velocitatPala) this.pala.vx = defNou.velocitatPala;
+
                 this.bola.posicio = new Punt(this.canvas.width / 2, this.canvas.height / 2);
                 this.bola.vy = -Math.abs(this.bola.vy);
                 this.esperant = true;
@@ -197,6 +214,11 @@ class Joc {
             } else {
                 // Victoria
                 this.acabat = true;
+
+                // 🔇 Aturar música
+                this.musica.pause();
+                this.musica.currentTime = 0;
+
                 this.reproduirSo(this.soGuanyar);
                 guardaPuntuacio(this.nom, this.punts);
                 $("#win-punts").text(this.punts);
