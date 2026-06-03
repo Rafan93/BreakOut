@@ -94,11 +94,14 @@ class Bola {
 
                 let col = this.interseccioSegmentRectangle(trajectoria, t);
                 if (col) {
-                    t.tocat = true;
+                    t.tocsRestants--;
+                    t.tempsColpejat = Date.now();
                     joc.reproduirMur();
 
-                    // Sistema de puntuació: suma punts per totxo destruït
-                    joc.punts += t.punts;
+                    if (t.tocsRestants <= 0) {
+                        t.tocat = true;
+                        joc.punts += t.punts;
+                    }
 
                     if (col.vora === "superior" || col.vora === "inferior") this.vy = -this.vy;
                     if (col.vora === "esquerra" || col.vora === "dreta") this.vx = -this.vx;
