@@ -113,6 +113,17 @@ class Mur {
                 }
             }
         }
+
+        // Blocs multi-toc al nivell 3 (2 tocs) i nivell 4 (3 tocs): 15% aleatori
+        if (this.nivellActual === 2 || this.nivellActual === 3) {
+            const tocsNivell = this.nivellActual === 2 ? 2 : 3;
+            for (let t of this.totxos) {
+                if (Math.random() < 0.15) {
+                    t.tocs = tocsNivell;
+                    t.tocsRestants = tocsNivell;
+                }
+            }
+        }
     }
 
     draw(ctx) {

@@ -92,13 +92,21 @@ class Bola {
             for (let t of mur.totxos) {
                 if (t.tocat) continue;
 
-                let col = this.interseccioSegmentRectangle(trajectoria, t);
+                let totxoGran = {
+                    posicio: new Punt(t.posicio.x - this.radi, t.posicio.y - this.radi),
+                    amplada: t.amplada + 2 * this.radi,
+                    alcada: t.alcada + 2 * this.radi
+                };
+                let col = this.interseccioSegmentRectangle(trajectoria, totxoGran);
                 if (col) {
-                    t.tocat = true;
+                    t.tocsRestants--;
+                    t.tempsColpejat = Date.now();
                     joc.reproduirMur();
 
-                    // Sistema de puntuació: suma punts per totxo destruït
-                    joc.punts += t.punts;
+                    if (t.tocsRestants <= 0) {
+                        t.tocat = true;
+                        joc.punts += t.punts;
+                    }
 
                     if (col.vora === "superior" || col.vora === "inferior") this.vy = -this.vy;
                     if (col.vora === "esquerra" || col.vora === "dreta") this.vx = -this.vx;
